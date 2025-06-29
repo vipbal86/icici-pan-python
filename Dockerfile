@@ -1,10 +1,11 @@
-FROM python:3.10-slim
+FROM python:3.10
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD gunicorn -b :8080 main:app
+CMD ["gunicorn", "-b", ":8080", "main:app"]
+
