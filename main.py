@@ -43,7 +43,9 @@ def fetch_account():
     except Exception as e:
         print("❌ Firestore error:", e)
 
-    return jsonify(dummy_result)
+    # Return JSON as raw string to preserve order
+    json_str = json.dumps(dummy_result, indent=2)
+    return Response(json_str, mimetype="application/json")
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=8080)
