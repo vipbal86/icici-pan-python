@@ -8,7 +8,7 @@ db = firestore.Client(project="composite-jetty-464401-n9")
 
 @app.route("/")
 def home():
-    return "🔥 NEW CODE DEPLOYED!"
+    return render_template("index.html")
 
 @app.route("/api/fetch-account", methods=["POST"])
 def fetch_account():
