@@ -1,21 +1,22 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from google.cloud import firestore
-import os
 
-app = Flask(__name__, static_folder='static', template_folder='templates')
+app = Flask(__name__)
 
-# Initialize Firestore client
-db = firestore.Client()
+# force correct project ID
+db = firestore.Client(project="composite-jetty-464401-n9")
 
 @app.route("/")
-def index():
-    return render_template("index.html")
+def home():
+    return "ICICI PAN API App Running!"
 
 @app.route("/api/fetch-account", methods=["POST"])
 def fetch_account():
-    print("🔥 API endpoint called!")
-    
+    print("🔥🔥🔥 API endpoint running with Firestore logic.")
+
     data = request.json
+    print("👉 Received request data:", data)
+
     pan = data.get("pan")
 
     dummy_result = {
@@ -32,17 +33,17 @@ def fetch_account():
 
     try:
         print("🔥 Attempting Firestore write...")
-        db = firestore.Client(project="composite-jetty-464401-n9")
         doc_ref = db.collection("panRequests").document()
         doc_ref.set({
             "pan": pan,
             "result": dummy_result
         })
         print("✅ Firestore write successful.")
+
     except Exception as e:
         print("❌ Firestore error:", e)
 
     return jsonify(dummy_result)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    app.run(debug=True, host="0.0.0.0", port=8080)
