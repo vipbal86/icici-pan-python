@@ -1,4 +1,4 @@
-from flask import Flask, render_template, render_template_string, request, jsonify
+from flask import Flask, render_template, render_template_string, request, jsonify, Response
 import json
 from google.cloud import firestore
 
