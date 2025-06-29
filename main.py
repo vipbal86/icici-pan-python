@@ -13,6 +13,8 @@ def index():
 
 @app.route("/api/fetch-account", methods=["POST"])
 def fetch_account():
+    print("🔥 API endpoint called!")
+    
     data = request.json
     pan = data.get("pan")
 
@@ -29,14 +31,16 @@ def fetch_account():
     }
 
     try:
+        print("🔥 Attempting Firestore write...")
+        db = firestore.Client(project="composite-jetty-464401-n9")
         doc_ref = db.collection("panRequests").document()
         doc_ref.set({
             "pan": pan,
             "result": dummy_result
         })
-        print("Saved to Firestore")
+        print("✅ Firestore write successful.")
     except Exception as e:
-        print("Firestore error:", e)
+        print("❌ Firestore error:", e)
 
     return jsonify(dummy_result)
 
