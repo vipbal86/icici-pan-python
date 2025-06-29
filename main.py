@@ -28,12 +28,15 @@ def fetch_account():
         ]
     }
 
-    # Save to Firestore
-    doc_ref = db.collection("panRequests").document()
-    doc_ref.set({
-        "pan": pan,
-        "result": dummy_result
-    })
+    try:
+        doc_ref = db.collection("panRequests").document()
+        doc_ref.set({
+            "pan": pan,
+            "result": dummy_result
+        })
+        print("Saved to Firestore")
+    except Exception as e:
+        print("Firestore error:", e)
 
     return jsonify(dummy_result)
 
